@@ -37,5 +37,42 @@ public class SistemaTurnos {
         System.out.println("Atendiendo a: " + cliente);
         return cliente;
     }
+ public String peek()     { return isEmpty() ? null : frente.cliente; }
+    public boolean isEmpty() { return frente == null; }
+    public int tamanio()     { return tamanio; }
 
-    
+    public void mostrarFila() {
+        Nodo actual = frente;
+        System.out.print("Fila -> ");
+        while (actual != null) {
+            System.out.print("[" + actual.cliente + "] ");
+            actual = actual.siguiente;
+        }
+        System.out.println();
+    }
+
+    // E4.1 - Retorna la posición del cliente en la fila (1 = primero)
+    public int posicion(String cliente) {
+        Nodo actual = frente;
+        int pos = 1;
+        while (actual != null) {
+            if (actual.cliente.equals(cliente)) return pos;
+            actual = actual.siguiente;
+            pos++;
+        }
+        return -1; // no está en la fila
+    }
+
+    // E4.2 - Mueve al primer cliente al final de la fila (castigo)
+    public void saltarTurno() {
+        if (isEmpty() || frente == fin) return; // no hay a quién mover
+        String primero = dequeue();
+        // enqueue sin imprimir el mensaje del turn
+        Nodo nuevo = new Nodo(primero);
+        fin.siguiente = nuevo;
+        fin = nuevo;
+        tamanio++;
+        System.out.println(primero + " fue movido al final (turno perdido).");
+    }
+}
+  
