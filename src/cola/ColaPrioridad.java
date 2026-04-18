@@ -23,5 +23,34 @@ public class ColaPrioridad {
         tamanio++;
         System.out.println("[VIP] " + cliente + " pasó al frente.");
     }
-    
-  
+
+    // Agrega cliente normal al final
+    public void agregarNormal(String cliente) {
+        Nodo nuevo = new Nodo(cliente);
+        if (fin == null) {
+            frente = fin = nuevo;
+        } else {
+            fin.siguiente = nuevo;
+            fin = nuevo;
+        }
+        tamanio++;
+        System.out.println("[Normal] " + cliente + " tomó turno al final.");
+    }
+
+    // Atender al primero
+    public String atender() {
+        if (frente == null) { System.out.println("No hay nadie."); return null; }
+        String c = frente.cliente;
+        frente = frente.siguiente;
+        if (frente == null) fin = null;
+        tamanio--;
+        return c;
+    }
+
+    public void mostrar() {
+        Nodo a = frente;
+        System.out.print("Cola Prioridad -> ");
+        while (a != null) { System.out.print("[" + a.cliente + "] "); a = a.siguiente; }
+        System.out.println();
+    }
+}
